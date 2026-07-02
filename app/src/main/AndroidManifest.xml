@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".RegisterSuccessActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
 

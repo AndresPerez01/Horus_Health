@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -37,6 +36,7 @@ class RegisterActivity : AppCompatActivity() {
         // 3. Vinculación de Botones y Textos de acción
         val btnCrearCuenta = findViewById<MaterialButton>(R.id.btnCrearCuenta)
         val tvYaTienesCuenta = findViewById<TextView>(R.id.tvYaTienesCuenta)
+        val tvBackHeader = findViewById<TextView>(R.id.tvBackHeader)
 
         // 4. Control del campo Fecha (Despliega el calendario nativo)
         etFecha.setOnClickListener {
@@ -131,20 +131,33 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Toast.makeText(this, "¡Cuenta creada con éxito! Inicia sesión", Toast.LENGTH_LONG).show()
+            val result = LocalStorage.registerUser(
+                context = this,
+                user = UserProfile(
+                    name = nombre,
+                    email = correo,
+                    phone = telefono,
+                    birthDate = fecha,
+                    password = contra
+                )
+            )
+            if (result.isFailure) {
+                layoutCorreo.error = result.exceptionOrNull()?.message ?: "No se pudo crear la cuenta"
+                return@setOnClickListener
+            }
 
-            // Redirige al Login de manera explícita y limpia la pila de actividades
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            val intent = Intent(this, RegisterSuccessActivity::class.java)
             startActivity(intent)
-
-            // Destruye esta pantalla de registro
             finish()
         }
 
         // 6. Control del texto "¿Ya tienes cuenta? Inicia sesión"
         tvYaTienesCuenta.setOnClickListener {
             // Simplemente cerramos esta actividad para regresar al Login que está detrás
+            finish()
+        }
+
+        tvBackHeader.setOnClickListener {
             finish()
         }
     }

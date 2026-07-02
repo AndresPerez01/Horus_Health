@@ -9,13 +9,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout // ¡Importación nueva!
+import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        LocalStorage.ensureSeedData(this)
+
+        if (LocalStorage.getSessionUser(this) != null) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
+        }
+
         setContentView(R.layout.login)
 
         // 1. Enlazamos los CONTENEDORES (Para mostrar los errores en rojo)
@@ -62,8 +70,13 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // --- INGRESO EXITOSO ---
-            Toast.makeText(this, "Ingresando como: $email", Toast.LENGTH_LONG).show()
+            val user = LocalStorage.login(this, email, password)
+            if (user == null) {
+                layoutContrasena.error = "Credenciales incorrectas. Usa la cuenta de prueba o registrate"
+                return@setOnClickListener
+            }
+
+            Toast.makeText(this, "Ingresando como: ${user.name}", Toast.LENGTH_LONG).show()
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

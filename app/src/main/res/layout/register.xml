@@ -9,15 +9,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="128dp"
+        android:minHeight="164dp"
         android:background="#0B2458"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tvBackHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="← Volver al inicio de sesión"
+            android:textColor="#D7E3FF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -32,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="Horus Health"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -42,16 +52,16 @@
             android:layout_marginTop="12dp"
             android:text="Crear cuenta"
             android:textColor="#FFFFFF"
-            android:textSize="32sp"
+            android:textSize="34sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Únete a Horus Health para gestionar tus citas"
+            android:text="Únete a Horus Health para gestionar tus citas paso a paso"
             android:textColor="#A0B3D6"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <ScrollView
@@ -72,7 +82,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="NOMBRE COMPLETO *"
                 android:textColor="#424242"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -92,7 +102,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre y apellidos"
-                    android:inputType="textPersonName|textCapWords" />
+                    android:inputType="textPersonName|textCapWords"
+                    android:minHeight="56dp"
+                    android:paddingVertical="14dp"
+                    android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -101,7 +114,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="CORREO ELECTRÓNICO *"
                 android:textColor="#424242"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -121,7 +134,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="tu@correo.com"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:minHeight="56dp"
+                    android:paddingVertical="14dp"
+                    android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -130,7 +146,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="TELÉFONO"
                 android:textColor="#424242"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -150,7 +166,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="+593 99 000 0000"
-                    android:inputType="phone" />
+                    android:inputType="phone"
+                    android:minHeight="56dp"
+                    android:paddingVertical="14dp"
+                    android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -159,7 +178,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="FECHA DE NACIMIENTO"
                 android:textColor="#424242"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -183,7 +202,10 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:hint="dd/mm/aaaa"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:minHeight="56dp"
+                    android:paddingVertical="14dp"
+                    android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -192,7 +214,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="CONTRASEÑA *"
                 android:textColor="#424242"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -213,7 +235,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Mínimo 6 caracteres"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:minHeight="56dp"
+                    android:paddingVertical="14dp"
+                    android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -222,7 +247,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="CONFIRMAR CONTRASEÑA *"
                 android:textColor="#424242"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -243,19 +268,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Repite tu contraseña"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:minHeight="56dp"
+                    android:paddingVertical="14dp"
+                    android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Te pediremos pocos datos y luego podras agendar tu cita facilmente."
+                android:textColor="#667085"
+                android:textSize="15sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCrearCuenta"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="64dp"
                 android:layout_marginBottom="24dp"
                 android:text="Crear mi cuenta"
                 android:textAllCaps="false"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:backgroundTint="#0B2458"
-                app:cornerRadius="8dp" />
+                app:cornerRadius="10dp" />
 
             <TextView
                 android:id="@+id/tvYaTienesCuenta"
@@ -264,7 +300,7 @@
                 android:text="¿Ya tienes cuenta? Inicia sesión"
                 android:textAlignment="center"
                 android:textColor="#0B2458"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
