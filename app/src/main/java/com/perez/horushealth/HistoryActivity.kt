@@ -2,11 +2,25 @@ package com.perez.horushealth
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 
 class HistorialActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Carga el xml del historial que me pediste antes
         setContentView(R.layout.historial)
+
+        val btnVolverAtras = findViewById<MaterialCardView>(R.id.btnVolverAtras)
+
+        btnVolverAtras.setOnClickListener {
+            finish()
+        }
+
+        val btnVolverInicio = findViewById<MaterialButton>(R.id.btnVolverInicio)
+
+        btnVolverInicio.setOnClickListener {
+            finish()
+        }
     }
 }
