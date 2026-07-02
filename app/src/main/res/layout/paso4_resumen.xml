@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6F9">
+
+    <LinearLayout
+        android:id="@+id/headerPaso4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0B2458"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+            <com.google.android.material.card.MaterialCardView android:layout_width="40dp" android:layout_height="40dp" app:cardBackgroundColor="#16397A" app:cardCornerRadius="10dp" app:strokeWidth="0dp">
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:src="@android:drawable/ic_media_previous" app:tint="#FFFFFF" />
+            </com.google.android.material.card.MaterialCardView>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Revisa tu cita" android:textColor="#FFFFFF" android:textSize="20sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Paso 4 de 4" android:textColor="#A0B3D6" android:textSize="14sp" />
+            </LinearLayout>
+            <View android:layout_width="40dp" android:layout_height="40dp" />
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="4dp" android:layout_marginTop="20dp" android:background="#FFFFFF" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomButtons"
+        android:layout_below="@+id/headerPaso4"
+        android:fillViewport="true">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:strokeWidth="0dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DATOS DE LA CITA" android:textColor="#A0B3D6" android:textSize="12sp" android:textStyle="bold" android:layout_marginBottom="16dp" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Especialidad" android:textColor="#667085" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medicina General" android:textColor="#424242" android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Médico" android:textColor="#667085" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dra. Ana López" android:textColor="#424242" android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Fecha" android:textColor="#667085" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="28 de Abril, 2026" android:textColor="#424242" android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Hora" android:textColor="#667085" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="09:00 AM" android:textColor="#424242" android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:strokeWidth="0dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TUS DATOS" android:textColor="#A0B3D6" android:textSize="12sp" android:textStyle="bold" android:layout_marginBottom="16dp" />
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="12dp">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Nombre" android:textColor="#667085" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Juana" android:textColor="#424242" android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="#FFF9E5" android:padding="16dp" android:orientation="horizontal">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="✏️ ¿Algo está mal? Usa el botón Editar antes de confirmar." android:textColor="#856004" android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="24dp">
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp" android:layout_height="64dp" android:layout_weight="1" android:layout_marginEnd="12dp"
+            android:text="Editar" android:textAllCaps="false" android:textColor="#3266E3" app:backgroundTint="#FFFFFF" app:strokeColor="#3266E3" app:strokeWidth="2dp" app:cornerRadius="10dp" />
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="0dp" android:layout_height="64dp" android:layout_weight="1.5"
+            android:text="✓ Confirmar cita" android:textAllCaps="false" android:textColor="#FFFFFF" app:backgroundTint="#3266E3" app:cornerRadius="10dp" />
+    </LinearLayout>
+</RelativeLayout>
