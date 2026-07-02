@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6F9">
+
+    <!-- ENCABEZADO -->
+    <LinearLayout
+        android:id="@+id/headerHistorial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0B2458"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnVolverAtras"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="#16397A"
+            app:cardCornerRadius="10dp"
+            app:strokeWidth="0dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_media_previous"
+                app:tint="#FFFFFF" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Mis Citas"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="40dp" /> <!-- Espaciador para centrar el título -->
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/barraInferior"
+        android:layout_below="@+id/headerHistorial"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- TÍTULO: PRÓXIMAS -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="PRÓXIMAS"
+                android:textColor="#667085"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <!-- TARJETA 1: Medicina General -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- FRANJA AZUL LATERAL -->
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="match_parent"
+                        android:background="#3266E3" />
+
+                    <!-- CONTENIDO DE LA TARJETA -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Medicina General"
+                                android:textColor="#0B2458"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <!-- Etiqueta "Próxima" -->
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="#F0F4FF"
+                                app:cardCornerRadius="12dp"
+                                app:strokeWidth="0dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="4dp"
+                                    android:text="Próxima"
+                                    android:textColor="#3266E3"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="👩‍⚕️ Dra. Ana López"
+                            android:textColor="#667085"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="📅 28 de Abril · 09:00 AM"
+                            android:textColor="#667085"
+                            android:textSize="14sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:layout_marginTop="16dp"
+                            android:text="✕ Cancelar cita"
+                            android:textAllCaps="false"
+                            android:textColor="#D32F2F"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:backgroundTint="#FFFFFF"
+                            app:cornerRadius="8dp"
+                            app:strokeColor="#D32F2F"
+                            app:strokeWidth="1dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- TARJETA 2: Cardiología -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="match_parent"
+                        android:background="#3266E3" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Cardiología"
+                                android:textColor="#0B2458"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="#F0F4FF"
+                                app:cardCornerRadius="12dp"
+                                app:strokeWidth="0dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="4dp"
+                                    android:text="Próxima"
+                                    android:textColor="#3266E3"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="👨‍⚕️ Dr. Juan Pérez"
+                            android:textColor="#667085"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="📅 05 de Mayo · 10:30 AM"
+                            android:textColor="#667085"
+                            android:textSize="14sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:layout_marginTop="16dp"
+                            android:text="✕ Cancelar cita"
+                            android:textAllCaps="false"
+                            android:textColor="#D32F2F"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:backgroundTint="#FFFFFF"
+                            app:cornerRadius="8dp"
+                            app:strokeColor="#D32F2F"
+                            app:strokeWidth="1dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- TÍTULO: HISTORIAL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="HISTORIAL"
+                android:textColor="#667085"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <!-- TARJETA 3: Realizada (Gris) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- FRANJA GRIS LATERAL -->
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="match_parent"
+                        android:background="#9CA3AF" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Oftalmología"
+                                android:textColor="#667085"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="#F4F6F9"
+                                app:cardCornerRadius="12dp"
+                                app:strokeWidth="0dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="4dp"
+                                    android:text="Realizada"
+                                    android:textColor="#9CA3AF"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="👨‍⚕️ Dr. Carlos Ruiz"
+                            android:textColor="#9CA3AF"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="📅 10 de Marzo · 11:00 AM"
+                            android:textColor="#9CA3AF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- BOTÓN VOLVER AL INICIO -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVolverInicio"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:text="← Volver al inicio"
+                android:textAllCaps="false"
+                android:textColor="#424242"
+                android:textSize="16sp"
+                app:backgroundTint="#EAECEF"
+                app:cornerRadius="10dp"
+                app:elevation="0dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- BARRA DE NAVEGACIÓN INFERIOR -->
+    <LinearLayout
+        android:id="@+id/barraInferior"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:elevation="12dp"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
+
+        <!-- Opción Inicio (Inactiva) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@android:drawable/ic_menu_info_details"
+                app:tint="#667085" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Inicio"
+                android:textColor="#667085"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Opción Citas (Activa) -->
+
+        <!-- Opción Perfil (Inactiva) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:tint="#667085" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Perfil"
+                android:textColor="#667085"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
