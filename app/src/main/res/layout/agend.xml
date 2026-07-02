@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Hola, ______ 👋"
+                    android:text="Hola, ______"
                     android:textColor="#D7E3FF"
                     android:textSize="18sp" />
 

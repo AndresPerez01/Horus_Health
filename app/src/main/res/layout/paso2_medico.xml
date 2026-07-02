@@ -100,7 +100,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="💡 Si no tienes preferencia, la asignación automática es más rápida."
+            android:text=" Si no tienes preferencia, la asignación automática es más rápida."
             android:textColor="#667085"
             android:textSize="14sp" />
     </LinearLayout>
