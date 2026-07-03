@@ -1,32 +1,11 @@
-package com.perez.horushealth
+package com.perez.horushealth.data
 
 import android.content.Context
+import com.perez.horushealth.model.Appointment
+import com.perez.horushealth.model.Doctor
+import com.perez.horushealth.model.UserProfile
 import org.json.JSONArray
 import org.json.JSONObject
-
-data class UserProfile(
-    val name: String,
-    val email: String,
-    val phone: String,
-    val birthDate: String,
-    val password: String
-)
-
-data class Doctor(
-    val name: String,
-    val specialty: String,
-    val schedule: String,
-    val rating: Double
-)
-
-data class Appointment(
-    val id: String,
-    val specialty: String,
-    val doctorName: String,
-    val dateLabel: String,
-    val time: String,
-    val status: String
-)
 
 object LocalStorage {
     private const val PREFS_NAME = "horus_health_local_storage"
@@ -187,6 +166,7 @@ object LocalStorage {
         .put("phone", phone)
         .put("birthDate", birthDate)
         .put("password", password)
+        .put("countryCode", countryCode)
 
     private fun Appointment.toJson(): JSONObject = JSONObject()
         .put("id", id)
@@ -201,7 +181,8 @@ object LocalStorage {
         email = getString("email"),
         phone = getString("phone"),
         birthDate = getString("birthDate"),
-        password = getString("password")
+        password = getString("password"),
+        countryCode = optString("countryCode", "+593")
     )
 
     private fun JSONObject.toAppointment(): Appointment = Appointment(

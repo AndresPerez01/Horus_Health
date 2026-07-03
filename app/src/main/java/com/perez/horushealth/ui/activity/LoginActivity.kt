@@ -1,4 +1,4 @@
-package com.perez.horushealth
+package com.perez.horushealth.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.perez.horushealth.R
+import com.perez.horushealth.data.LocalStorage
 
 class LoginActivity : AppCompatActivity() {
 
@@ -26,39 +28,29 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.login)
 
-        // 1. Enlazamos los CONTENEDORES (Para mostrar los errores en rojo)
         val layoutCorreo = findViewById<TextInputLayout>(R.id.idcorreo)
         val layoutContrasena = findViewById<TextInputLayout>(R.id.idcontrasena)
-
-        // 2. Enlazamos los CAMPOS DE TEXTO (Para leer lo que el usuario teclea)
         val etEmail = findViewById<TextInputEditText>(R.id.etEmail)
         val etPassword = findViewById<TextInputEditText>(R.id.etPassword)
-
-        // 3. Enlazamos los BOTONES
         val btnLogin = findViewById<MaterialButton>(R.id.btnLogin)
         val tvRegister = findViewById<TextView>(R.id.tvRegister)
 
         btnLogin.setOnClickListener {
-            // Limpiamos los errores anteriores antes de volver a validar
             layoutCorreo.error = null
             layoutContrasena.error = null
 
-            // Leemos el texto de los EditText
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
 
-            // --- VALIDACIÓN DE CORREO ---
             if (email.isEmpty()) {
-                layoutCorreo.error = "El correo no puede estar vacío" // El error va al contenedor
+                layoutCorreo.error = "El correo no puede estar vacío"
                 return@setOnClickListener
             } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 layoutCorreo.error = "Ingresa un formato de correo válido"
                 return@setOnClickListener
             }
 
-            // --- VALIDACIÓN DE CONTRASEÑA ---
             val passwordRegex = Regex("^[a-zA-Z0-9@#\$%&*\\-_]+$")
-
             if (password.isEmpty()) {
                 layoutContrasena.error = "La contraseña no puede estar vacía"
                 return@setOnClickListener
@@ -72,20 +64,17 @@ class LoginActivity : AppCompatActivity() {
 
             val user = LocalStorage.login(this, email, password)
             if (user == null) {
-                layoutContrasena.error = "Credenciales incorrectas. Usa la cuenta de prueba o registrate"
+                layoutContrasena.error = "Credenciales incorrectas"
                 return@setOnClickListener
             }
 
             Toast.makeText(this, "Ingresando como: ${user.name}", Toast.LENGTH_LONG).show()
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 
         tvRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 }

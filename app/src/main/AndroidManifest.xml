@@ -13,7 +13,7 @@
         android:theme="@style/Theme.HorusHealth">
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:theme="@style/Theme.HorusHealth.Splash"
             android:exported="true">
             <intent-filter>
@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegisterSuccessActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".HistorialActivity" />
+        <activity android:name=".ui.activity.RegisterSuccessActivity" />
+        <activity android:name=".ui.activity.RegisterActivity" />
+        <activity android:name=".ui.activity.MainActivity" />
+        <activity android:name=".ui.activity.HistorialActivity" />
 
     </application>
 

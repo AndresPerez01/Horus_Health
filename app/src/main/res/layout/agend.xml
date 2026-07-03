@@ -44,25 +44,21 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        app:cardBackgroundColor="#16397A"
-                        app:cardCornerRadius="21dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="#FFFFFF"
-                        app:strokeWidth="1dp">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="8dp"
-                            android:src="@android:drawable/ic_menu_myplaces"
-                            app:tint="#FAD270" />
-                    </com.google.android.material.card.MaterialCardView>
+                    <!-- Botón de Cerrar Sesión con Texto -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCerrarSesion"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cerrar Sesión"
+                        android:textAllCaps="false"
+                        android:textColor="#FAD270"
+                        android:textSize="14sp"
+                        app:rippleColor="#16397A" />
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tvGreeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
