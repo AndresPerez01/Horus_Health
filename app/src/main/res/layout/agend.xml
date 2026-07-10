@@ -18,7 +18,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="169dp"
                 android:background="#0B2458"
                 android:orientation="vertical"
                 android:padding="20dp">
@@ -44,7 +44,6 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <!-- Botón de Cerrar Sesión con Texto -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnCerrarSesion"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -57,24 +56,20 @@
                         app:rippleColor="#16397A" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tvGreeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_gravity="center_horizontal"
                     android:text="Hola, ______"
                     android:textColor="#D7E3FF"
-                    android:textSize="18sp" />
+                    android:textSize="30sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="Citas Médicas"
-                    android:textColor="#FFFFFF"
-                    android:textSize="34sp"
-                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -115,33 +110,28 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnAgendarCita"
-                            android:layout_width="wrap_content"
-                            android:layout_height="56dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="20dp"
                             android:text="+ Agendar Cita"
                             android:textAllCaps="false"
                             android:textColor="#0B2458"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
                             app:backgroundTint="#FFFFFF"
-                            app:cornerRadius="10dp" />
+                            app:cornerRadius="12dp"
+                            app:elevation="8dp"
+                            app:rippleColor="#D7E3FF" />
+
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="12dp"
-                    android:text="ACCESOS RÁPIDOS"
-                    android:textColor="#424242"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardMisCitas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
                     android:layout_marginBottom="16dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -196,19 +186,6 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardMiPerfil"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="#D0D5DD"
-                    app:strokeWidth="1dp"/>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -243,16 +220,19 @@
                 android:text="Inicio"
                 android:textColor="#0B2458"
                 android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </LinearLayout>
 
-        <!-- Opción Perfil (Inactiva) -->
         <LinearLayout
+            android:id="@+id/btnNavPerfil"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackgroundBorderless">
 
             <ImageView
                 android:layout_width="26dp"
@@ -268,6 +248,6 @@
                 android:textColor="#667085"
                 android:textSize="13sp" />
         </LinearLayout>
-    </LinearLayout>
 
+    </LinearLayout>
 </RelativeLayout>

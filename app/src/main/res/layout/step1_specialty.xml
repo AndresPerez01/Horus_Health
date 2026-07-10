@@ -17,43 +17,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:cardBackgroundColor="#16397A"
-                app:cardCornerRadius="10dp"
-                app:strokeWidth="0dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@android:drawable/ic_media_previous"
-                    app:tint="#FFFFFF" />
-            </com.google.android.material.card.MaterialCardView>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/logo_horus_sin_titulo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Horus Health"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:text="Tipo de atención"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:text="Paso 1 de 4"
                     android:textColor="#A0B3D6"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textAlignment="center"/>
             </LinearLayout>
-            <View android:layout_width="40dp" android:layout_height="40dp" /> </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,13 +78,14 @@
             <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="3" android:background="#16397A" />
         </LinearLayout>
     </LinearLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btnContinuar1"
         android:layout_below="@+id/headerPaso1"
-        android:fillViewport="true">
+        android:layout_above="@+id/bottomContainer"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,6 +96,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp"
                 android:text="¿QUÉ ESPECIALIDAD NECESITAS?"
                 android:textColor="#667085"
@@ -89,31 +104,12 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardMedicinaGeneral"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardBackgroundColor="#F4F8FF"
-                app:cardCornerRadius="10dp"
-                app:strokeColor="#3266E3"
-                app:strokeWidth="2dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
-                    <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@android:drawable/ic_menu_add" app:tint="#0B2458" />
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medicina General" android:textColor="#0B2458" android:textSize="18sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Consulta general" android:textColor="#667085" android:textSize="14sp" />
-                    </LinearLayout>
-                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/checkbox_on_background" app:tint="#3266E3" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="10dp"
                 app:strokeWidth="0dp">
@@ -122,25 +118,189 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:padding="16dp">
-                    <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@android:drawable/ic_menu_view" app:tint="#0B2458" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_general"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Medicina General" android:textColor="#424242" android:textSize="18sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Consulta general" android:textColor="#667085" android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCardiologia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_card" />
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cardiología" android:textColor="#424242" android:textSize="18sp" android:textStyle="bold" />
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Corazón y circulación" android:textColor="#667085" android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardGeriatria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_ger" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Geriatría" android:textColor="#424242" android:textSize="18sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Atención a Adultos Mayores" android:textColor="#667085" android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOftalmologia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_octal" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Oftalmología" android:textColor="#424242" android:textSize="18sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Salud visual y ojos" android:textColor="#667085" android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDermatologia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_derm" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dermatología" android:textColor="#424242" android:textSize="18sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cuidado de la piel" android:textColor="#667085" android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardTraumatologia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/icon_trau" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Traumatología" android:textColor="#424242" android:textSize="18sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Huesos y articulaciones" android:textColor="#667085" android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnContinuar1"
+    <RelativeLayout
+        android:id="@+id/bottomContainer"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="24dp"
-        android:text="Continuar →"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        app:backgroundTint="#3266E3"
-        app:cornerRadius="10dp" />
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnRegresarCircular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_revert"
+                app:backgroundTint="#0B2458"
+                app:tint="#FFFFFF"
+                app:elevation="6dp"
+                android:contentDescription="Regresar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Regresar"
+                android:textColor="#0B2458"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:orientation="vertical"/>
+    </RelativeLayout>
 </RelativeLayout>

@@ -27,8 +27,9 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
     buildFeatures {
         compose = true
@@ -54,4 +55,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }

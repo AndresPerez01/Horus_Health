@@ -86,17 +86,25 @@
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopEnd="10dp"
                 app:boxCornerRadiusTopStart="10dp"
-                app:hintEnabled="false">
+                app:boxStrokeColor="#0B2458"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:hintEnabled="false"
+                app:startIconDrawable="@android:drawable/ic_dialog_email"
+                app:startIconTint="#667085">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ejemplo: juana.b.pinzon@gmail.com"
+                    android:textColorHint="#9E9E9E"
                     android:inputType="textEmailAddress"
                     android:minHeight="56dp"
                     android:paddingVertical="14dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textColor="#0B2458"
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -118,18 +126,27 @@
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopEnd="10dp"
                 app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="#0B2458"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
                 app:hintEnabled="false"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="#0B2458"
+                app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+                app:startIconTint="#667085">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Mínimo 6 caracteres"
+                    android:textColorHint="#9E9E9E"
                     android:inputType="textPassword"
                     android:minHeight="56dp"
                     android:paddingVertical="14dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textColor="#0B2458"
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -147,6 +164,7 @@
                 android:layout_marginBottom="24dp"
                 android:text="Ingresar"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:backgroundTint="#0B2458"
                 app:cornerRadius="10dp" />

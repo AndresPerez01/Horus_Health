@@ -26,6 +26,14 @@
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.HistorialActivity" />
+        <activity android:name=".ui.activity.Step1Activity" />
+        <activity android:name=".ui.activity.Step2Activity" />
+        <activity android:name=".ui.activity.Step2aActivity" />
+        <activity android:name=".ui.activity.Step2bActivity" />
+        <activity android:name=".ui.activity.Step3Activity" />
+        <activity android:name=".ui.activity.Step4Activity" />
+        <activity android:name=".ui.activity.Step5Activity" />
+        <activity android:name=".ui.activity.PerfilActivity" />
 
     </application>
 

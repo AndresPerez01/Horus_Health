@@ -19,7 +19,7 @@
             android:id="@+id/tvBackHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="← Volver al inicio de sesión"
+            android:text="Volver al inicio de sesión"
             android:textColor="#D7E3FF"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Únete a Horus Health para gestionar tus citas paso a paso"
+            android:text="Únete a Horus Health"
             android:textColor="#A0B3D6"
             android:textSize="16sp" />
     </LinearLayout>
@@ -95,17 +95,66 @@
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
-                app:hintEnabled="false">
+                app:boxStrokeColor="#0B2458"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:hintEnabled="false"
+                app:startIconDrawable="@android:drawable/ic_menu_edit"
+                app:startIconTint="#667085">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre y apellidos"
+                    android:hint="Ej. Juan Pérez"
+                    android:textColorHint="#9E9E9E"
                     android:inputType="textPersonName|textCapWords"
                     android:minHeight="56dp"
                     android:paddingVertical="14dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textColor="#0B2458"
+                    android:textCursorDrawable="@null" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="CÉDULA DE IDENTIDAD *"
+                android:textColor="#424242"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutCedula"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="#0B2458"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:hintEnabled="false"
+                app:startIconDrawable="@android:drawable/ic_menu_recent_history"
+                app:startIconTint="#667085">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCedula"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ej. 1712345678"
+                    android:textColorHint="#9E9E9E"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:minHeight="56dp"
+                    android:paddingVertical="14dp"
+                    android:textSize="18sp"
+                    android:textColor="#0B2458"
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -127,17 +176,25 @@
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
-                app:hintEnabled="false">
+                app:boxStrokeColor="#0B2458"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:hintEnabled="false"
+                app:startIconDrawable="@android:drawable/ic_dialog_email"
+                app:startIconTint="#667085">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCorreoReg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="tu@correo.com"
+                    android:textColorHint="#9E9E9E"
                     android:inputType="textEmailAddress"
                     android:minHeight="56dp"
                     android:paddingVertical="14dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textColor="#0B2458"
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -165,17 +222,22 @@
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="#0B2458"
+                    app:boxStrokeWidth="1dp"
+                    app:boxStrokeWidthFocused="2dp"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/atvCountry"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="46dp"
+                        android:contentDescription="Seleccionar código de país"
+                        android:hint="País"
                         android:inputType="none"
-                        android:minHeight="56dp"
                         android:paddingVertical="14dp"
+                        android:textColor="#0B2458"
+                        android:textColorHint="#9E9E9E"
                         android:textSize="14sp" />
-
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -188,18 +250,26 @@
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusTopStart="8dp"
-                    app:hintEnabled="false">
+                    app:boxStrokeColor="#0B2458"
+                    app:boxStrokeWidth="1dp"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:hintEnabled="false"
+                    app:startIconDrawable="@android:drawable/ic_menu_call"
+                    app:startIconTint="#667085">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etTelefono"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Número de celular"
+                        android:hint="Ej. 0991234567"
+                        android:textColorHint="#9E9E9E"
                         android:inputType="phone"
                         android:maxLength="10"
                         android:minHeight="56dp"
                         android:paddingVertical="14dp"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textColor="#0B2458"
+                        android:textCursorDrawable="@null" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -224,6 +294,10 @@
                 app:boxCornerRadiusTopStart="8dp"
                 app:endIconDrawable="@android:drawable/ic_menu_today"
                 app:endIconMode="custom"
+                app:endIconTint="#0B2458"
+                app:boxStrokeColor="#0B2458"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -233,10 +307,12 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:hint="dd/mm/aaaa"
+                    android:textColorHint="#9E9E9E"
                     android:inputType="none"
                     android:minHeight="56dp"
                     android:paddingVertical="14dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textColor="#0B2458" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -258,18 +334,27 @@
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="#0B2458"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
                 app:hintEnabled="false"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="#0B2458"
+                app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+                app:startIconTint="#667085">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etContraReg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Mínimo 6 caracteres"
+                    android:textColorHint="#9E9E9E"
                     android:inputType="textPassword"
                     android:minHeight="56dp"
                     android:paddingVertical="14dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textColor="#0B2458"
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -291,18 +376,27 @@
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="#0B2458"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
                 app:hintEnabled="false"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="#0B2458"
+                app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+                app:startIconTint="#667085">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etConfirmar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Repite tu contraseña"
+                    android:textColorHint="#9E9E9E"
                     android:inputType="textPassword"
                     android:minHeight="56dp"
                     android:paddingVertical="14dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textColor="#0B2458"
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -320,6 +414,7 @@
                 android:layout_marginBottom="24dp"
                 android:text="Crear mi cuenta"
                 android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:backgroundTint="#0B2458"
                 app:cornerRadius="10dp" />

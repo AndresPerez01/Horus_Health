@@ -30,6 +30,7 @@ class RegisterActivity : AppCompatActivity() {
 
         // 1. Vinculación de Contenedores
         val layoutNombre = findViewById<TextInputLayout>(R.id.layoutNombre)
+        val layoutCedula = findViewById<TextInputLayout>(R.id.layoutCedula) // AGREGADO
         val layoutCorreo = findViewById<TextInputLayout>(R.id.layoutCorreoReg)
         val layoutCountry = findViewById<TextInputLayout>(R.id.layoutCountry)
         val layoutTelefono = findViewById<TextInputLayout>(R.id.layoutTelefono)
@@ -39,6 +40,7 @@ class RegisterActivity : AppCompatActivity() {
 
         // 2. Vinculación de Campos de Entrada
         val etNombre = findViewById<TextInputEditText>(R.id.etNombre)
+        val etCedula = findViewById<TextInputEditText>(R.id.etCedula) // AGREGADO
         val etCorreo = findViewById<TextInputEditText>(R.id.etCorreoReg)
         val atvCountry = findViewById<MaterialAutoCompleteTextView>(R.id.atvCountry)
         val etTelefono = findViewById<TextInputEditText>(R.id.etTelefono)
@@ -57,8 +59,7 @@ class RegisterActivity : AppCompatActivity() {
         )
         val adapter = CountryAdapter(this, countries)
         atvCountry.setAdapter(adapter)
-        
-        // Seleccionar Ecuador por defecto
+
         selectedCountry = countries[0]
         atvCountry.setText(selectedCountry?.toString(), false)
 
@@ -66,7 +67,7 @@ class RegisterActivity : AppCompatActivity() {
             selectedCountry = adapter.getItem(position)
         }
 
-        // 4. Control del campo Fecha (MaterialDatePicker)
+        // 4. Control del campo Fecha
         etFecha.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Selecciona tu fecha de nacimiento")
@@ -93,6 +94,7 @@ class RegisterActivity : AppCompatActivity() {
         btnCrearCuenta.setOnClickListener {
             // Reiniciamos errores
             layoutNombre.error = null
+            layoutCedula.error = null // AGREGADO
             layoutCorreo.error = null
             layoutCountry.error = null
             layoutTelefono.error = null
@@ -101,6 +103,7 @@ class RegisterActivity : AppCompatActivity() {
             layoutConfirmar.error = null
 
             val nombre = etNombre.text.toString().trim()
+            val cedula = etCedula.text.toString().trim() // AGREGADO
             val correo = etCorreo.text.toString().trim()
             val telefono = etTelefono.text.toString().trim()
             val fecha = etFecha.text.toString().trim()
@@ -119,8 +122,17 @@ class RegisterActivity : AppCompatActivity() {
                 layoutNombre.error = "El nombre solo debe contener letras"
                 return@setOnClickListener
             }
-            
-            // B. Control del Correo Electrónico
+
+            // B. Control de la Cédula (AGREGADO)
+            if (cedula.isEmpty()) {
+                layoutCedula.error = "La cédula es obligatoria"
+                return@setOnClickListener
+            } else if (cedula.length != 10) {
+                layoutCedula.error = "La cédula debe tener exactamente 10 dígitos"
+                return@setOnClickListener
+            }
+
+            // C. Control del Correo Electrónico
             if (correo.isEmpty()) {
                 layoutCorreo.error = "El correo electrónico es obligatorio"
                 return@setOnClickListener
@@ -164,6 +176,7 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Nota: La cédula está validada. Cuando actualices el UserProfile para soportarla, la agregas aquí.
             val result = LocalStorage.registerUser(
                 context = this,
                 user = UserProfile(
