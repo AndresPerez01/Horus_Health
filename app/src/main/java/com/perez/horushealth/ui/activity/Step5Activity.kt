@@ -3,9 +3,17 @@ package com.perez.horushealth.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.perez.horushealth.R
+import com.perez.horushealth.data.AppDatabase
+import com.perez.horushealth.data.Cita
+import com.perez.horushealth.data.SessionManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Step5Activity : AppCompatActivity() {
 
@@ -13,33 +21,51 @@ class Step5Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.step5_exito)
 
-        // 1. Vincular los TextViews del XML
         val tvEspecialidad = findViewById<TextView>(R.id.tvExitoEspecialidad)
         val tvMedico = findViewById<TextView>(R.id.tvExitoMedico)
         val tvLugar = findViewById<TextView>(R.id.tvExitoLugar)
         val tvFecha = findViewById<TextView>(R.id.tvExitoFecha)
         val tvHora = findViewById<TextView>(R.id.tvExitoHora)
 
-        // 2. Extraer datos pasados por el Intent desde el Paso 4
         val especialidad = intent.getStringExtra("ESPECIALIDAD") ?: ""
-        val medico = intent.getStringExtra("MEDICO") ?: ""
+        val medicoNombre = intent.getStringExtra("MEDICO") ?: ""
+        val medicoId = intent.getStringExtra("MEDICO_ID") ?: "" // La licencia
         val lugar = intent.getStringExtra("LUGAR") ?: ""
         val fecha = intent.getStringExtra("FECHA") ?: ""
         val hora = intent.getStringExtra("HORA") ?: ""
 
-        // 3. Escribir los datos en pantalla
         tvEspecialidad.text = especialidad
-        tvMedico.text = medico
+        tvMedico.text = medicoNombre
         tvLugar.text = lugar
         tvFecha.text = fecha
         tvHora.text = "$hora h"
 
-        // 4. Configurar el botón de Volver al Inicio
+        // 🔥 INSERTAR LA CITA EN ROOM
+        val pacienteCedula = SessionManager.getSession(this)
+
+        if (pacienteCedula != null && medicoId.isNotEmpty()) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val dao = AppDatabase.getBaseDatos(this@Step5Activity).horusDao()
+
+                val nuevaCita = Cita(
+                    pacienteCedula = pacienteCedula,
+                    medicoLicencia = medicoId,
+                    fecha = fecha,
+                    hora = hora,
+                    estado = "Programada"
+                )
+
+                dao.addCita(nuevaCita)
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@Step5Activity, "Cita guardada en base de datos", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         val btnVolver = findViewById<MaterialButton>(R.id.btnVolverInicio)
         btnVolver.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            // Estas banderas destruyen las pantallas 1, 2, 3, 4 y 5 de la memoria
-            // para que al llegar a "agend.xml" sea un inicio fresco.
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()

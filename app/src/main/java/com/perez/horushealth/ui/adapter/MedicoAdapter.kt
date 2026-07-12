@@ -7,14 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.perez.horushealth.R
-import com.tu_paquete.horushealth.Medico // Asegúrate de importar tu clase Medico
+import com.perez.horushealth.data.MedicoEntity // 🔥 Usamos la entidad de Room
 
 class MedicoAdapter(
-    private val listaMedicos: List<Medico>,
-    private val onMedicoClick: (Medico) -> Unit // Esto nos permite manejar el clic en el botón "Elegir"
+    private val listaMedicos: List<MedicoEntity>,
+    private val onMedicoClick: (MedicoEntity) -> Unit
 ) : RecyclerView.Adapter<MedicoAdapter.MedicoViewHolder>() {
 
-    // Esta clase interna busca y enlaza los elementos visuales del XML item_medico
     class MedicoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNombre = view.findViewById<TextView>(R.id.tvNombreMedico)
         val tvSubespecialidad = view.findViewById<TextView>(R.id.tvSubespecialidad)
@@ -33,7 +32,6 @@ class MedicoAdapter(
     override fun onBindViewHolder(holder: MedicoViewHolder, position: Int) {
         val medico = listaMedicos[position]
 
-        // Aquí "inyectamos" los datos en el diseño
         holder.tvNombre.text = medico.nombre
         holder.tvSubespecialidad.text = medico.subespecialidad
         holder.tvLicencia.text = "Licencia: ${medico.licencia}"
@@ -41,7 +39,6 @@ class MedicoAdapter(
         holder.tvDireccion.text = medico.direccion
         holder.tvPiso.text = medico.pisoYHabitacion
 
-        // Configuramos qué pasa cuando le dan clic a "Elegir"
         holder.btnElegir.setOnClickListener {
             onMedicoClick(medico)
         }

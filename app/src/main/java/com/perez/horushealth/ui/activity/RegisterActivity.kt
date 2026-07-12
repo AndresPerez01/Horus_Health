@@ -4,21 +4,31 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.perez.horushealth.R
-import com.perez.horushealth.data.LocalStorage
+import com.perez.horushealth.data.AppDatabase
+import com.perez.horushealth.data.Usuario
 import com.perez.horushealth.model.Country
-import com.perez.horushealth.model.UserProfile
 import com.perez.horushealth.ui.adapter.CountryAdapter
+import com.perez.horushealth.data.SessionManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import java.util.concurrent.Executor
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -28,9 +38,8 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register)
 
-        // 1. Vinculación de Contenedores
         val layoutNombre = findViewById<TextInputLayout>(R.id.layoutNombre)
-        val layoutCedula = findViewById<TextInputLayout>(R.id.layoutCedula) // AGREGADO
+        val layoutCedula = findViewById<TextInputLayout>(R.id.layoutCedula)
         val layoutCorreo = findViewById<TextInputLayout>(R.id.layoutCorreoReg)
         val layoutCountry = findViewById<TextInputLayout>(R.id.layoutCountry)
         val layoutTelefono = findViewById<TextInputLayout>(R.id.layoutTelefono)
@@ -38,17 +47,16 @@ class RegisterActivity : AppCompatActivity() {
         val layoutContra = findViewById<TextInputLayout>(R.id.layoutContraReg)
         val layoutConfirmar = findViewById<TextInputLayout>(R.id.layoutConfirmar)
 
-        // 2. Vinculación de Campos de Entrada
         val etNombre = findViewById<TextInputEditText>(R.id.etNombre)
-        val etCedula = findViewById<TextInputEditText>(R.id.etCedula) // AGREGADO
+        val etCedula = findViewById<TextInputEditText>(R.id.etCedula)
         val etCorreo = findViewById<TextInputEditText>(R.id.etCorreoReg)
         val atvCountry = findViewById<MaterialAutoCompleteTextView>(R.id.atvCountry)
         val etTelefono = findViewById<TextInputEditText>(R.id.etTelefono)
         val etFecha = findViewById<TextInputEditText>(R.id.etFecha)
         val etContra = findViewById<TextInputEditText>(R.id.etContraReg)
         val etConfirmar = findViewById<TextInputEditText>(R.id.etConfirmar)
+        val cbBiometria = findViewById<MaterialCheckBox>(R.id.cbBiometria)
 
-        // 3. Configuración del Selector de País
         val countries = listOf(
             Country("Ecuador", "+593", "🇪🇨"),
             Country("Colombia", "+57", "🇨🇴"),
@@ -67,7 +75,6 @@ class RegisterActivity : AppCompatActivity() {
             selectedCountry = adapter.getItem(position)
         }
 
-        // 4. Control del campo Fecha
         etFecha.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Selecciona tu fecha de nacimiento")
@@ -82,19 +89,16 @@ class RegisterActivity : AppCompatActivity() {
                 etFecha.setText(dateString)
                 layoutFecha.error = null
             }
-
             datePicker.show(supportFragmentManager, "DATE_PICKER")
         }
 
-        // 5. Vinculación de Botones y Textos de acción
         val btnCrearCuenta = findViewById<MaterialButton>(R.id.btnCrearCuenta)
         val tvYaTienesCuenta = findViewById<TextView>(R.id.tvYaTienesCuenta)
         val tvBackHeader = findViewById<TextView>(R.id.tvBackHeader)
 
         btnCrearCuenta.setOnClickListener {
-            // Reiniciamos errores
             layoutNombre.error = null
-            layoutCedula.error = null // AGREGADO
+            layoutCedula.error = null
             layoutCorreo.error = null
             layoutCountry.error = null
             layoutTelefono.error = null
@@ -103,50 +107,31 @@ class RegisterActivity : AppCompatActivity() {
             layoutConfirmar.error = null
 
             val nombre = etNombre.text.toString().trim()
-            val cedula = etCedula.text.toString().trim() // AGREGADO
+            val cedula = etCedula.text.toString().trim()
             val correo = etCorreo.text.toString().trim()
             val telefono = etTelefono.text.toString().trim()
             val fecha = etFecha.text.toString().trim()
             val contra = etContra.text.toString().trim()
             val confirmar = etConfirmar.text.toString().trim()
+            val aceptaBiometria = cbBiometria?.isChecked ?: false
 
-            // A. Control del Nombre Completo
             val nombreRegex = Regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$")
-            if (nombre.isEmpty()) {
-                layoutNombre.error = "El nombre no puede estar vacío"
-                return@setOnClickListener
-            } else if (nombre.length < 4) {
-                layoutNombre.error = "Ingresa tu nombre y apellido completo"
-                return@setOnClickListener
-            } else if (!nombre.matches(nombreRegex)) {
-                layoutNombre.error = "El nombre solo debe contener letras"
+            if (nombre.isEmpty() || nombre.length < 4 || !nombre.matches(nombreRegex)) {
+                layoutNombre.error = "Ingresa tu nombre y apellido completo (solo letras)"
                 return@setOnClickListener
             }
 
-            // B. Control de la Cédula (AGREGADO)
-            if (cedula.isEmpty()) {
-                layoutCedula.error = "La cédula es obligatoria"
-                return@setOnClickListener
-            } else if (cedula.length != 10) {
+            if (cedula.isEmpty() || cedula.length != 10) {
                 layoutCedula.error = "La cédula debe tener exactamente 10 dígitos"
                 return@setOnClickListener
             }
 
-            // C. Control del Correo Electrónico
-            if (correo.isEmpty()) {
-                layoutCorreo.error = "El correo electrónico es obligatorio"
-                return@setOnClickListener
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
-                layoutCorreo.error = "Por favor, ingresa un formato de correo válido"
+            if (correo.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+                layoutCorreo.error = "Ingresa un formato de correo válido"
                 return@setOnClickListener
             }
 
-            if (selectedCountry == null) {
-                layoutCountry.error = "Selecciona un país"
-                return@setOnClickListener
-            }
-
-            if (telefono.isEmpty() || (telefono.length < 7)) {
+            if (telefono.isEmpty() || telefono.length < 7) {
                 layoutTelefono.error = "Teléfono inválido"
                 return@setOnClickListener
             }
@@ -157,47 +142,99 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             val passwordRegex = Regex("^[a-zA-Z0-9@#\$%&*\\-_]+$")
-            if (contra.isEmpty()) {
-                layoutContra.error = "La contraseña no puede estar vacía"
-                return@setOnClickListener
-            } else if (contra.length < 6) {
-                layoutContra.error = "La contraseña debe tener al menos 6 caracteres"
-                return@setOnClickListener
-            } else if (!contra.matches(passwordRegex)) {
-                layoutContra.error = "No uses puntos ni comas. Solo letras, números y @ # $ % & * - _"
+            if (contra.isEmpty() || contra.length < 6 || !contra.matches(passwordRegex)) {
+                layoutContra.error = "Mínimo 6 caracteres válidos"
                 return@setOnClickListener
             }
 
-            if (confirmar.isEmpty()) {
-                layoutConfirmar.error = "Debes confirmar tu contraseña"
-                return@setOnClickListener
-            } else if (confirmar != contra) {
+            if (confirmar != contra) {
                 layoutConfirmar.error = "Las contraseñas no coinciden"
                 return@setOnClickListener
             }
 
-            // Nota: La cédula está validada. Cuando actualices el UserProfile para soportarla, la agregas aquí.
-            val result = LocalStorage.registerUser(
-                context = this,
-                user = UserProfile(
-                    name = nombre,
-                    email = correo,
-                    phone = telefono,
-                    birthDate = fecha,
-                    password = contra,
-                    countryCode = selectedCountry?.code ?: "+593"
-                )
-            )
+            // Validamos que no exista antes de pedir huella
+            lifecycleScope.launch(Dispatchers.IO) {
+                val dao = AppDatabase.getBaseDatos(this@RegisterActivity).horusDao()
+                val usuarioExistentePorCorreo = dao.getUsuario(correo)
+                val usuarioExistentePorCedula = dao.getUsuarioPorCedula(cedula)
 
-            if (result.isSuccess) {
-                startActivity(Intent(this, RegisterSuccessActivity::class.java))
-                finish()
-            } else {
-                layoutCorreo.error = result.exceptionOrNull()?.message ?: "Error al registrar"
+                withContext(Dispatchers.Main) {
+                    if (usuarioExistentePorCorreo != null) {
+                        layoutCorreo.error = "Ya existe una cuenta con este correo"
+                    } else if (usuarioExistentePorCedula != null) {
+                        layoutCedula.error = "Esta cédula ya está registrada"
+                    } else {
+                        val nuevoUsuario = Usuario(
+                            cedula = cedula,
+                            nombre = nombre,
+                            correo = correo,
+                            telefono = telefono,
+                            fechaNacimiento = fecha,
+                            contrasena = contra,
+                            paisCodigo = selectedCountry?.code ?: "+593",
+                            biometriaActivada = aceptaBiometria
+                        )
+
+                        // Si aceptó biometría, lanzamos el sensor. Si no, guardamos directo.
+                        if (aceptaBiometria) {
+                            configurarHuellaDigital(nuevoUsuario)
+                        } else {
+                            guardarUsuarioYContinuar(nuevoUsuario)
+                        }
+                    }
+                }
             }
         }
 
         tvYaTienesCuenta.setOnClickListener { finish() }
         tvBackHeader.setOnClickListener { finish() }
+    }
+
+    // --- FUNCIÓN PARA MOSTRAR EL SENSOR DE HUELLA ---
+    private fun configurarHuellaDigital(usuario: Usuario) {
+        val executor: Executor = ContextCompat.getMainExecutor(this)
+        val biometricPrompt = BiometricPrompt(this, executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Toast.makeText(applicationContext, "Registro de huella cancelado", Toast.LENGTH_SHORT).show()
+                    // Si cancela, desmarcamos el CheckBox para que decida qué hacer
+                    findViewById<MaterialCheckBox>(R.id.cbBiometria).isChecked = false
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    // La huella fue correcta, guardamos el usuario con el estado "true"
+                    guardarUsuarioYContinuar(usuario)
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Toast.makeText(applicationContext, "Huella no reconocida", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Vincular Huella Digital")
+            .setSubtitle("Confirma tu identidad para vincularla a Horus Health")
+            .setNegativeButtonText("Cancelar")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
+    }
+
+    // --- FUNCIÓN PARA GUARDAR EN LA BASE DE DATOS (ROOM) ---
+    private fun guardarUsuarioYContinuar(usuario: Usuario) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val dao = AppDatabase.getBaseDatos(this@RegisterActivity).horusDao()
+            dao.addUsuario(usuario)
+            SessionManager.saveSession(this@RegisterActivity, usuario.cedula)
+
+            withContext(Dispatchers.Main) {
+                startActivity(Intent(this@RegisterActivity, RegisterSuccessActivity::class.java))
+                finish()
+            }
+        }
     }
 }

@@ -6,9 +6,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.card.MaterialCardView
 import com.perez.horushealth.R
-import com.perez.horushealth.data.LocalStorage
+import com.perez.horushealth.data.AppDatabase
+import com.perez.horushealth.data.SessionManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PerfilActivity : AppCompatActivity() {
 
@@ -16,24 +21,30 @@ class PerfilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.perfil_usuario)
 
-        // Mostrar el correo real del usuario en el encabezado
-        val user = LocalStorage.getSessionUser(this)
+        val cedulaUsuario = SessionManager.getSession(this)
         val tvPerfilCorreo = findViewById<TextView>(R.id.tvPerfilCorreo)
-        if (user != null) {
-            tvPerfilCorreo.text = user.email
+
+        if (cedulaUsuario != null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val dao = AppDatabase.getBaseDatos(this@PerfilActivity).horusDao()
+                val user = dao.getUsuarioPorCedula(cedulaUsuario)
+
+                withContext(Dispatchers.Main) {
+                    if (user != null) {
+                        tvPerfilCorreo.text = user.correo
+                    }
+                }
+            }
         }
 
-        // Navegación Inferior (Volver a Inicio)
         val btnNavInicio = findViewById<LinearLayout>(R.id.btnNavInicio)
         btnNavInicio.setOnClickListener {
-            // Regresamos al MainActivity cerrando esta pantalla
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
             finish()
         }
 
-        // Opciones de configuración (Por ahora solo muestran mensajes)
         val cardEditarDatos = findViewById<MaterialCardView>(R.id.cardEditarDatos)
         cardEditarDatos.setOnClickListener {
             Toast.makeText(this, "Opción: Editar Datos Personales", Toast.LENGTH_SHORT).show()

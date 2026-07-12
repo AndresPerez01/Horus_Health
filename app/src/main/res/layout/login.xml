@@ -153,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
-                android:text="Si aun no tienes cuenta, registrate primero y luego inicia sesión."
+                android:text="Si aún no tienes cuenta, regístrate primero y luego inicia sesión."
                 android:textColor="#667085"
                 android:textSize="15sp" />
 
@@ -161,12 +161,28 @@
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="12dp"
                 android:text="Ingresar"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:backgroundTint="#0B2458"
+                app:cornerRadius="10dp" />
+
+            <!-- 🔥 NUEVO BOTÓN PARA HUELLA DIGITAL 🔥 -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHuella"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="24dp"
+                android:text="Ingresar con Huella Digital"
+                android:textAllCaps="false"
+                android:textColor="#0B2458"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:strokeColor="#0B2458"
+                app:strokeWidth="2dp"
                 app:cornerRadius="10dp" />
 
             <TextView

@@ -49,6 +49,7 @@
         android:layout_height="64dp"
         android:layout_marginTop="32dp"
         android:text="Ir al inicio de sesión"
+        android:textColor="#FFFFFF"
         android:textAllCaps="false"
         android:textSize="18sp"
         app:backgroundTint="#0B2458"
