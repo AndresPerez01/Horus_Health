@@ -4,7 +4,7 @@
     <style name="Theme.HorusHealth" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
 
     <style name="Theme.HorusHealth.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#040C24</item>
+        <item name="windowSplashScreenBackground">#0B2458</item>
 
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo_carga</item>
 
