@@ -97,7 +97,7 @@
                     <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@android:drawable/ic_menu_gallery" app:tint="#3266E3" />
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tarjetas registradas" android:textColor="#424242" android:textSize="16sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Visa terminada en **** 4567" android:textColor="#667085" android:textSize="13sp" />
+                        <TextView android:id="@+id/tvTarjetaSubtitulo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sin tarjeta registrada" android:textColor="#667085" android:textSize="13sp" />
                     </LinearLayout>
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:rotation="270" android:src="@android:drawable/arrow_down_float" app:tint="#D0D5DD" />
                 </LinearLayout>
@@ -126,6 +126,26 @@
                     <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@android:drawable/ic_lock_idle_lock" app:tint="#3266E3" />
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cambiar contraseña" android:textColor="#424242" android:textSize="16sp" android:textStyle="bold" />
+                    </LinearLayout>
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:rotation="270" android:src="@android:drawable/arrow_down_float" app:tint="#D0D5DD" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardHuella"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:strokeWidth="0dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:padding="16dp">
+                    <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@android:drawable/ic_partial_secure" app:tint="#3266E3" />
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Inicio de sesión con huella" android:textColor="#424242" android:textSize="16sp" android:textStyle="bold" />
+                        <TextView android:id="@+id/tvHuellaSubtitulo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Verificando..." android:textColor="#667085" android:textSize="13sp" />
                     </LinearLayout>
                     <ImageView android:layout_width="16dp" android:layout_height="16dp" android:rotation="270" android:src="@android:drawable/arrow_down_float" app:tint="#D0D5DD" />
                 </LinearLayout>

@@ -56,6 +56,18 @@ class RegisterActivity : AppCompatActivity() {
         val etContra = findViewById<TextInputEditText>(R.id.etContraReg)
         val etConfirmar = findViewById<TextInputEditText>(R.id.etConfirmar)
         val cbBiometria = findViewById<MaterialCheckBox>(R.id.cbBiometria)
+        val tvFortalezaReg = findViewById<TextView>(R.id.tvFortalezaReg)
+
+        // Indicador de fortaleza de la contraseña en vivo
+        etContra.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun afterTextChanged(s: android.text.Editable?) {
+                val (texto, color) = calcularFortaleza(etContra.text.toString())
+                tvFortalezaReg.text = "Fortaleza: $texto"
+                tvFortalezaReg.setTextColor(color)
+            }
+        })
 
         val countries = listOf(
             Country("Ecuador", "+593", "🇪🇨"),
@@ -192,6 +204,34 @@ class RegisterActivity : AppCompatActivity() {
 
     // --- FUNCIÓN PARA MOSTRAR EL SENSOR DE HUELLA ---
     private fun configurarHuellaDigital(usuario: Usuario) {
+        // Verificamos primero si el dispositivo puede usar biometría.
+        // En un emulador sin huella enrolada esto evita que el registro se quede bloqueado.
+        val biometricManager = androidx.biometric.BiometricManager.from(this)
+        val autenticadores = androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+        when (biometricManager.canAuthenticate(autenticadores)) {
+            androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS -> {
+                // Hay biometría disponible y enrolada: continuamos con el sensor.
+            }
+            androidx.biometric.BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                Toast.makeText(
+                    this,
+                    "No hay ninguna huella registrada en el dispositivo. Se creará tu cuenta sin biometría; puedes activarla luego desde los ajustes del teléfono.",
+                    Toast.LENGTH_LONG
+                ).show()
+                guardarUsuarioYContinuar(usuario.copy(biometriaActivada = false))
+                return
+            }
+            else -> {
+                Toast.makeText(
+                    this,
+                    "Este dispositivo no tiene sensor de huella disponible. Se creará tu cuenta sin biometría.",
+                    Toast.LENGTH_LONG
+                ).show()
+                guardarUsuarioYContinuar(usuario.copy(biometriaActivada = false))
+                return
+            }
+        }
+
         val executor: Executor = ContextCompat.getMainExecutor(this)
         val biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback() {
@@ -222,6 +262,22 @@ class RegisterActivity : AppCompatActivity() {
             .build()
 
         biometricPrompt.authenticate(promptInfo)
+    }
+
+    // --- INDICADOR DE FORTALEZA DE CONTRASEÑA ---
+    private fun calcularFortaleza(pass: String): Pair<String, Int> {
+        if (pass.isEmpty()) return "—" to 0xFF667085.toInt()
+        var puntos = 0
+        if (pass.length >= 6) puntos++
+        if (pass.length >= 10) puntos++
+        if (pass.any { it.isDigit() }) puntos++
+        if (pass.any { it.isLetter() }) puntos++
+        if (pass.any { !it.isLetterOrDigit() }) puntos++
+        return when {
+            puntos <= 2 -> "Débil" to 0xFFD32F2F.toInt()
+            puntos <= 3 -> "Media" to 0xFFF9A825.toInt()
+            else -> "Fuerte" to 0xFF2E7D32.toInt()
+        }
     }
 
     // --- FUNCIÓN PARA GUARDAR EN LA BASE DE DATOS (ROOM) ---

@@ -18,6 +18,9 @@ interface HorusDao {
     @Query("SELECT * FROM usuarios WHERE cedula = :cedula LIMIT 1")
     suspend fun getUsuarioPorCedula(cedula: String): Usuario?
 
+    @androidx.room.Update
+    suspend fun actualizarUsuario(usuario: Usuario)
+
     // --- CONSULTAS DE MÉDICOS ---
     @Insert
     suspend fun addMedico(medico: MedicoEntity)
