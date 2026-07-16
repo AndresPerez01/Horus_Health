@@ -92,21 +92,30 @@ class Step3Activity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             val db = AppDatabase.getBaseDatos(this@Step3Activity)
-            // Ya que tenemos la DB, podríamos en el futuro obtener las citas ocupadas de aquí
-            // Por ahora, simularemos la ocupación pero trayendo el médico de Room
             val medicos = db.horusDao().getMedicosPorEspecialidad(especialidadElegida)
             val medico = medicos.find { it.licencia == idMedicoElegido } ?: return@launch
+
+            // 1. Convertimos la fecha que escogió el usuario a Texto (String) para Room
+            val fechaTexto = fechaSeleccionada.toString()
+
+            // 2. Le pedimos a Room la lista real de horas ocupadas (nos devuelve Strings como "09:00")
+            val horasOcupadasTextos = db.horusDao().getHorasOcupadasPorMedico(idMedicoElegido, fechaTexto)
+
+            // 3. Convertimos esos textos a objetos LocalTime para poder compararlos fácilmente
+            val citasOcupadasReales = horasOcupadasTextos.map { LocalTime.parse(it) }
 
             val turnosDisponibles = mutableListOf<LocalTime>()
             val ahora = LocalDateTime.now()
             val limiteHoraMinima = ahora.plusHours(2)
-            val citasOcupadasBaseDatos = listOf(LocalTime.of(9, 0), LocalTime.of(14, 0))
 
             for (hora in medico.horaInicio until medico.horaFin) {
                 val horaDelTurno = LocalTime.of(hora, 0)
                 val fechaHoraDelTurno = LocalDateTime.of(fechaSeleccionada, horaDelTurno)
 
-                if (citasOcupadasBaseDatos.contains(horaDelTurno)) continue
+                // Si la hora generada coincide con una hora real de la BD, la saltamos
+                if (citasOcupadasReales.contains(horaDelTurno)) {
+                    continue
+                }
 
                 if (fechaSeleccionada == LocalDate.now()) {
                     if (fechaHoraDelTurno.isAfter(limiteHoraMinima)) turnosDisponibles.add(horaDelTurno)

@@ -3,11 +3,13 @@ package com.perez.horushealth.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.perez.horushealth.R
 import com.perez.horushealth.data.AppDatabase
+import com.perez.horushealth.data.Cita
 import com.perez.horushealth.data.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,14 +71,45 @@ class Step4Activity : AppCompatActivity() {
 
         val btnConfirmar = findViewById<MaterialButton>(R.id.btnConfirmarCita)
         btnConfirmar.setOnClickListener {
-            val intent = Intent(this, Step5Activity::class.java)
-            intent.putExtra("ESPECIALIDAD", especialidad)
-            intent.putExtra("MEDICO", nombreMedico)
-            intent.putExtra("MEDICO_ID", idMedico)
-            intent.putExtra("LUGAR", lugarCompleto)
-            intent.putExtra("FECHA", fecha)
-            intent.putExtra("HORA", hora)
-            startActivity(intent)
+            // 1. APAGAMOS EL BOTÓN INMEDIATAMENTE PARA EVITAR DOBLE CLICK
+            btnConfirmar.isEnabled = false
+
+            // Validamos que la sesión no se haya perdido
+            if (cedulaActiva == null) {
+                Toast.makeText(this, "Error de sesión. Vuelve a iniciar sesión.", Toast.LENGTH_SHORT).show()
+                btnConfirmar.isEnabled = true // Lo volvemos a prender por si el usuario quiere reintentar
+                return@setOnClickListener
+            }
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                val dao = AppDatabase.getBaseDatos(this@Step4Activity).horusDao()
+                val horasOcupadas = dao.getHorasOcupadasPorMedico(idMedico, fecha)
+
+                if (horasOcupadas.contains(hora)) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@Step4Activity, "Lo sentimos, esta hora acaba de ser reservada", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                } else {
+                    val nuevaCita = Cita(
+                        pacienteCedula = cedulaActiva,
+                        medicoLicencia = idMedico,
+                        fecha = fecha,
+                        hora = hora,
+                        estado = "Activa"
+                    )
+
+                    dao.addCita(nuevaCita)
+
+                    withContext(Dispatchers.Main) {
+                        val intent = Intent(this@Step4Activity, Step5Activity::class.java)
+                        intent.putExtra("ESPECIALIDAD", especialidad)
+                        // ... (el resto de tus putExtra)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
         }
     }
 }

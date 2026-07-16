@@ -32,6 +32,10 @@ interface HorusDao {
     @Insert
     suspend fun addCita(cita: Cita)
 
+    // Agrega esto en tu HorusDao, en la sección de CITAS
+    @Query("SELECT hora FROM citas WHERE medicoLicencia = :idMedico AND fecha = :fechaElegida AND estado != 'Cancelada'")
+    suspend fun getHorasOcupadasPorMedico(idMedico: String, fechaElegida: String): List<String>
+
     @Query("SELECT * FROM citas WHERE pacienteCedula = :cedula ORDER BY idCita DESC")
     suspend fun getCitasPorPaciente(cedula: String): List<Cita>
 
