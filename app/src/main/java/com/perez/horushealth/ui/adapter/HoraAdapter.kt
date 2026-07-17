@@ -10,14 +10,27 @@ import com.perez.horushealth.R
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
+/*
+ * ============================================================================
+ *  ADAPTADOR DE HORAS  (usado en el Paso 3, layout de cada botón: item_hora.xml)
+ * ============================================================================
+ *  Pinta la rejilla de horas disponibles (08:00, 09:00...) y controla
+ *  cuál está seleccionada para pintarla en azul.
+ *
+ *  Recibe:
+ *   - listaHoras         : las horas libres ya calculadas por Step3Activity.
+ *   - onHoraSeleccionada : lambda para avisar a la Activity qué hora se tocó.
+ * ============================================================================
+ */
 class HoraAdapter(
     private val listaHoras: List<LocalTime>,
     private val onHoraSeleccionada: (LocalTime) -> Unit
 ) : RecyclerView.Adapter<HoraAdapter.HoraViewHolder>() {
 
-    // Variable para rastrear cuál botón está seleccionado actualmente
+    // Variable para rastrear cuál botón está seleccionado actualmente (-1 = ninguno)
     private var posicionSeleccionada = -1
 
+    // ViewHolder: guarda la referencia al botón de UNA celda de la rejilla
     class HoraViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val btnHora = view.findViewById<MaterialButton>(R.id.btnHoraItem)
     }

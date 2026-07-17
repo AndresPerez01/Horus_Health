@@ -15,12 +15,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/*
+ * ============================================================================
+ *  PASO 2a: LISTA DE MÉDICOS   (layout: step2a_lista_medicos.xml)
+ * ============================================================================
+ *  Solo se llega aquí por el CAMINO MANUAL (el usuario eligió "Elegir mi médico").
+ *  Muestra los médicos de la especialidad y, al elegir uno, va al Paso 3.
+ * ============================================================================
+ */
 class Step2aActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.step2a_lista_medicos)
 
+        // Especialidad que viene arrastrada desde el Paso 1
         val especialidadElegida = intent.getStringExtra("ESPECIALIDAD_SELECCIONADA") ?: ""
 
         val tvTitulo = findViewById<TextView>(R.id.tvTituloEspecialidad)
@@ -36,16 +45,21 @@ class Step2aActivity : AppCompatActivity() {
 
             // Volvemos a la UI para pintar la lista
             withContext(Dispatchers.Main) {
+                // El bloque { medicoSeleccionado -> ... } se ejecuta cuando el usuario
+                // pulsa "Elegir" en una tarjeta (el Adapter dispara este lambda).
                 val adapter = MedicoAdapter(medicosFiltrados) { medicoSeleccionado ->
                     val intent = Intent(this@Step2aActivity, Step3Activity::class.java)
 
+                    // Seguimos arrastrando los datos al siguiente paso.
+                    // MEDICO_ID es la LICENCIA: es la clave con la que luego se guarda
+                    // la cita (foreign key medicoLicencia).
                     intent.putExtra("ESPECIALIDAD_SELECCIONADA", especialidadElegida)
-                    intent.putExtra("MEDICO_ID", medicoSeleccionado.licencia) // Enviamos la licencia
+                    intent.putExtra("MEDICO_ID", medicoSeleccionado.licencia)
                     intent.putExtra("MEDICO_NOMBRE", medicoSeleccionado.nombre)
 
                     startActivity(intent)
                 }
-                rvMedicos.adapter = adapter
+                rvMedicos.adapter = adapter   // Entregamos el adaptador a la lista
             }
         }
 

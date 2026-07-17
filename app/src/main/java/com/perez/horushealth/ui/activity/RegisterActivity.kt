@@ -30,13 +30,30 @@ import java.util.Locale
 import java.util.TimeZone
 import java.util.concurrent.Executor
 
+/*
+ * ============================================================================
+ *  PANTALLA DE REGISTRO / CREAR CUENTA   (layout: register.xml)
+ * ============================================================================
+ *  Flujo completo:
+ *    1. El usuario llena el formulario.
+ *    2. Se validan TODOS los campos (uno por uno, con return@ para cortar).
+ *    3. Se comprueba en Room que no exista ya ese correo ni esa cédula.
+ *    4. Si marcó "huella": se pide la huella ANTES de guardar.
+ *       Si no la marcó: se guarda directo.
+ *    5. Se guarda el Usuario, se abre sesión y se va a la pantalla de éxito.
+ * ============================================================================
+ */
 class RegisterActivity : AppCompatActivity() {
 
+    // Guarda el país elegido en el desplegable (se usa para la columna paisCodigo).
     private var selectedCountry: Country? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register)
+
+        // --- Enlace con el XML: los "layout" son las cajas (para mostrar errores)
+        //     y los "et" (EditText) son los campos donde se escribe. ---
 
         val layoutNombre = findViewById<TextInputLayout>(R.id.layoutNombre)
         val layoutCedula = findViewById<TextInputLayout>(R.id.layoutCedula)
@@ -69,6 +86,8 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
 
+        // ---- SELECTOR DE PAÍS ----
+        // Lista fija de países. CountryAdapter los pinta en el desplegable.
         val countries = listOf(
             Country("Ecuador", "+593", "🇪🇨"),
             Country("Colombia", "+57", "🇨🇴"),
@@ -80,21 +99,25 @@ class RegisterActivity : AppCompatActivity() {
         val adapter = CountryAdapter(this, countries)
         atvCountry.setAdapter(adapter)
 
-        selectedCountry = countries[0]
-        atvCountry.setText(selectedCountry?.toString(), false)
+        selectedCountry = countries[0]                            // Ecuador por defecto
+        atvCountry.setText(selectedCountry?.toString(), false)    // false = no filtrar la lista al escribir
 
         atvCountry.setOnItemClickListener { _, _, position, _ ->
-            selectedCountry = adapter.getItem(position)
+            selectedCountry = adapter.getItem(position)           // Guardamos el país que tocó el usuario
         }
 
+        // ---- SELECTOR DE FECHA DE NACIMIENTO ----
+        // El campo no se escribe a mano: al tocarlo abre un calendario (MaterialDatePicker).
         etFecha.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Selecciona tu fecha de nacimiento")
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
 
+            // Se ejecuta cuando el usuario pulsa "OK" en el calendario.
+            // "selection" llega en milisegundos, hay que convertirlo a texto dd/MM/yyyy.
             datePicker.addOnPositiveButtonClickListener { selection ->
-                val calendar = TimeZone.getTimeZone("UTC")
+                val calendar = TimeZone.getTimeZone("UTC")   // UTC evita que cambie el día por la zona horaria
                 val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 formatter.timeZone = calendar
                 val dateString = formatter.format(Date(selection))
@@ -108,7 +131,9 @@ class RegisterActivity : AppCompatActivity() {
         val tvYaTienesCuenta = findViewById<TextView>(R.id.tvYaTienesCuenta)
         val tvBackHeader = findViewById<TextView>(R.id.tvBackHeader)
 
+        // ======================= BOTÓN "CREAR MI CUENTA" =======================
         btnCrearCuenta.setOnClickListener {
+            // 1) Limpiamos todos los errores anteriores antes de revalidar
             layoutNombre.error = null
             layoutCedula.error = null
             layoutCorreo.error = null
@@ -125,14 +150,19 @@ class RegisterActivity : AppCompatActivity() {
             val fecha = etFecha.text.toString().trim()
             val contra = etContra.text.toString().trim()
             val confirmar = etConfirmar.text.toString().trim()
-            val aceptaBiometria = cbBiometria?.isChecked ?: false
+            val aceptaBiometria = cbBiometria?.isChecked ?: false   // ¿marcó la casilla de huella?
 
+            // 2) VALIDACIONES: si una falla, se muestra el error y se corta con return@
+            //    (así nunca se llega a guardar un usuario con datos inválidos)
+
+            // Regex: solo letras (incluidas tildes y ñ) y espacios. Mínimo 4 caracteres.
             val nombreRegex = Regex("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$")
             if (nombre.isEmpty() || nombre.length < 4 || !nombre.matches(nombreRegex)) {
                 layoutNombre.error = "Ingresa tu nombre y apellido completo (solo letras)"
                 return@setOnClickListener
             }
 
+            // La cédula ecuatoriana tiene exactamente 10 dígitos (y es la CLAVE PRIMARIA en Room)
             if (cedula.isEmpty() || cedula.length != 10) {
                 layoutCedula.error = "La cédula debe tener exactamente 10 dígitos"
                 return@setOnClickListener
@@ -164,7 +194,9 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Validamos que no exista antes de pedir huella
+            // 3) ANTIDUPLICADOS: preguntamos a Room si ese correo o esa cédula ya existen.
+            //    Es necesario porque la cédula es PRIMARY KEY: insertar una repetida
+            //    haría que la app se caiga (crash por constraint).
             lifecycleScope.launch(Dispatchers.IO) {
                 val dao = AppDatabase.getBaseDatos(this@RegisterActivity).horusDao()
                 val usuarioExistentePorCorreo = dao.getUsuario(correo)
@@ -176,6 +208,7 @@ class RegisterActivity : AppCompatActivity() {
                     } else if (usuarioExistentePorCedula != null) {
                         layoutCedula.error = "Esta cédula ya está registrada"
                     } else {
+                        // 4) Todo válido: armamos el objeto Usuario (una fila de la tabla "usuarios")
                         val nuevoUsuario = Usuario(
                             cedula = cedula,
                             nombre = nombre,
@@ -280,16 +313,23 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    // --- FUNCIÓN PARA GUARDAR EN LA BASE DE DATOS (ROOM) ---
+    /**
+     * GUARDA EL USUARIO EN ROOM y deja la sesión abierta.
+     * Se llama desde dos sitios:
+     *   - directamente, si el usuario NO quiso huella;
+     *   - desde onAuthenticationSucceeded, si SÍ quiso huella y la confirmó.
+     */
     private fun guardarUsuarioYContinuar(usuario: Usuario) {
         lifecycleScope.launch(Dispatchers.IO) {
             val dao = AppDatabase.getBaseDatos(this@RegisterActivity).horusDao()
-            dao.addUsuario(usuario)
+            dao.addUsuario(usuario)   // INSERT en la tabla "usuarios"
+
+            // Dejamos la sesión iniciada: el usuario entra sin volver a loguearse
             SessionManager.saveSession(this@RegisterActivity, usuario.cedula)
 
             withContext(Dispatchers.Main) {
                 startActivity(Intent(this@RegisterActivity, RegisterSuccessActivity::class.java))
-                finish()
+                finish()   // cerramos el registro: "atrás" no debe volver al formulario
             }
         }
     }

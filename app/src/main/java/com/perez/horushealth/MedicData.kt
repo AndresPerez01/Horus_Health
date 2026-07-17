@@ -1,5 +1,26 @@
 package com.tu_paquete.horushealth
+// OJO (dato para la defensa): este archivo quedó con el package de ejemplo
+// "com.tu_paquete.horushealth" en vez de "com.perez.horushealth".
+// Por eso AppDatabase.kt tiene que importarlo con ese nombre raro.
 
+/*
+ * ============================================================================
+ *  SEMILLA DE MÉDICOS (datos de precarga)
+ * ============================================================================
+ *  IMPORTANTE: esto NO es la base de datos, es una LISTA FIJA en el código.
+ *
+ *  ¿Para qué sirve? La app necesita arrancar con médicos ya cargados (nadie
+ *  los registra desde la app). La primera vez que se crea la base de datos,
+ *  el DatabaseCallback de AppDatabase.kt recorre esta lista y la copia a la
+ *  tabla "medicos" de Room.
+ *
+ *  Es decir:  MedicData.kt (lista fija)  --se copia una vez-->  tabla medicos (Room)
+ *  A partir de ahí, la app SIEMPRE lee de Room, nunca de esta lista.
+ * ============================================================================
+ */
+
+// Clase "de paso": representa un médico ANTES de entrar a Room.
+// Es casi igual a MedicoEntity, pero sin anotaciones (no es una tabla).
 data class Medico(
     val id: String,
     val nombre: String,
@@ -15,7 +36,10 @@ data class Medico(
     val horaFin: Int     // Formato 24h: 17 (para 17:00 / 5:00 PM)
 )
 
-// Tu "Base de Datos" simulada
+/**
+ * Singleton con la lista maestra de médicos.
+ * Solo lo usa AppDatabase.DatabaseCallback (la precarga inicial).
+ */
 object RepositorioMedicos {
     val listaMaestra = listOf(
 

@@ -15,6 +15,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/*
+ * ============================================================================
+ *  PASO 5: CITA CONFIRMADA / ÉXITO   (layout: step5_exito.xml)
+ * ============================================================================
+ *  Es la última pantalla de AMBOS caminos, pero se comporta distinto:
+ *
+ *   - CAMINO AUTOMÁTICO (Step2b -> Step5): AQUÍ se guarda la cita en Room,
+ *     porque Step2b le pasa el MEDICO_ID.
+ *   - CAMINO MANUAL (Step4 -> Step5): la cita YA se guardó en Step4.
+ *     Step4 no envía MEDICO_ID, así que el "if" de abajo NO se cumple
+ *     y por eso NO se duplica la cita.
+ * ============================================================================
+ */
 class Step5Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +53,12 @@ class Step5Activity : AppCompatActivity() {
         tvFecha.text = fecha
         tvHora.text = "$hora h"
 
-        // 🔥 INSERTAR LA CITA EN ROOM
+        // 🔥 INSERTAR LA CITA EN ROOM (solo ocurre en el camino AUTOMÁTICO)
         val pacienteCedula = SessionManager.getSession(this)
 
+        // Este "if" es el que decide si se guarda o no:
+        //   - viene de Step2b (automático) -> medicoId tiene valor  -> SÍ guarda
+        //   - viene de Step4  (manual)     -> medicoId llega vacío   -> NO guarda (ya se guardó allí)
         if (pacienteCedula != null && medicoId.isNotEmpty()) {
             lifecycleScope.launch(Dispatchers.IO) {
                 val dao = AppDatabase.getBaseDatos(this@Step5Activity).horusDao()
@@ -66,6 +82,8 @@ class Step5Activity : AppCompatActivity() {
         val btnVolver = findViewById<MaterialButton>(R.id.btnVolverInicio)
         btnVolver.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            // CLEAR_TOP: cierra todas las pantallas del flujo (Step1..Step5) que quedaron
+            // apiladas detrás, para que "atrás" no devuelva al usuario a agendar otra vez.
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()

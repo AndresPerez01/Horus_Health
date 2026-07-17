@@ -1,0 +1,21 @@
+CAPTURAS PARA LA PRESENTACIÓN (Horus Health)
+=============================================
+
+Coloca aquí las capturas de pantalla del emulador con EXACTAMENTE estos nombres
+(formato .png). Las que falten aparecerán como un marco vacío en el PPTX.
+
+  login.png          -> Pantalla de inicio de sesión
+  registro.png       -> Pantalla de crear cuenta (se ve el indicador de fortaleza)
+  inicio.png         -> Pantalla principal (saludo, Agendar Cita, Mis citas)
+  agendar_1.png      -> Paso 1 del agendamiento (especialidad)
+  agendar_2.png      -> Paso intermedio (médico / fecha)
+  agendar_3.png      -> Paso final / confirmación de la cita
+  mis_citas.png      -> Historial "Mis citas"
+  perfil.png         -> Pantalla "Mi Cuenta"
+  perfil_tarjeta.png -> Diálogo de tarjeta con la vista previa
+
+Cómo tomar capturas en el emulador:
+  - Botón de cámara en la barra lateral del emulador, o
+  - adb exec-out screencap -p > inicio.png
+
+Cuando las tengas listas, avísame y regenero el PPTX con las imágenes dentro.

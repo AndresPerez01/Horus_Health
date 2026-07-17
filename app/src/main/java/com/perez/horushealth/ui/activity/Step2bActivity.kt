@@ -7,6 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.perez.horushealth.R
 
+/*
+ * ============================================================================
+ *  PASO 2b: ASIGNACIÓN AUTOMÁTICA   (layout: step2b_asignacion_auto.xml)
+ * ============================================================================
+ *  Es el CAMINO AUTOMÁTICO. Muestra la propuesta ("Hemos encontrado el turno
+ *  más próximo para ti") que calculó el algoritmo de Step2Activity.
+ *
+ *  Esta pantalla NO consulta la base de datos: solo muestra los datos que le
+ *  llegan por Intent y, si el usuario confirma, se los pasa a Step5
+ *  (que es quien realmente guarda la cita en este camino).
+ * ============================================================================
+ */
 class Step2bActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

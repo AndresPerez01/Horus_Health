@@ -17,12 +17,22 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalTime
 
+/*
+ * ============================================================================
+ *  PASO 2: ¿CÓMO QUIERES CONTINUAR?   (layout: step2_medic.xml)
+ * ============================================================================
+ *  Aquí el flujo se BIFURCA en dos caminos:
+ *    A) "Elegir mi médico"        -> Step2a (lista) -> Step3 (fecha) -> Step4 -> Step5
+ *    B) "Asignar automáticamente" -> Step2b (propuesta) -------------------> Step5
+ * ============================================================================
+ */
 class Step2Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.step2_medic)
 
+        // Recibimos la especialidad que se eligió en el Paso 1
         val especialidad = intent.getStringExtra("ESPECIALIDAD_SELECCIONADA") ?: ""
 
         val cardElegirMedico = findViewById<MaterialCardView>(R.id.cardElegirMedico)
@@ -44,10 +54,20 @@ class Step2Activity : AppCompatActivity() {
         }
     }
 
+    /**
+     * ================= ALGORITMO DE ASIGNACIÓN AUTOMÁTICA =================
+     * Objetivo: encontrar LA CITA MÁS PRÓXIMA POSIBLE de esa especialidad.
+     *
+     * Cómo funciona (dos bucles anidados):
+     *   BUCLE EXTERNO -> avanza día por día, desde hoy, hasta 7 días adelante.
+     *   BUCLE INTERNO -> por cada día, revisa TODOS los médicos de la especialidad
+     *                    y se queda con el que tenga el turno MÁS TEMPRANO.
+     *   En cuanto encuentra un día con hueco, corta con "break" (ya es el más próximo).
+     */
     private fun asignarCitaAutomaticamente(especialidad: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             val dao = AppDatabase.getBaseDatos(this@Step2Activity).horusDao()
-            // Buscamos los médicos en la base de datos
+            // Traemos de Room todos los médicos de esa especialidad
             val medicos = dao.getMedicosPorEspecialidad(especialidad)
 
             withContext(Dispatchers.Main) {
@@ -60,18 +80,22 @@ class Step2Activity : AppCompatActivity() {
                 var horaAsignada: LocalTime? = null
                 var medicoAsignado: MedicoEntity? = null // Usamos MedicoEntity
 
-                var fechaActualBusqueda = LocalDate.now()
+                var fechaActualBusqueda = LocalDate.now()   // Empezamos a buscar desde HOY
 
+                // BUCLE EXTERNO: día por día (hoy + 7 días como máximo)
                 for (i in 0..7) {
                     var horaMasTempranaDelDia: LocalTime? = null
                     var mejorMedicoDelDia: MedicoEntity? = null
 
+                    // BUCLE INTERNO: comparamos todos los médicos de ese día
                     for (medico in medicos) {
+                        // GestorHorarios aplica las reglas (jornada + 2h de anticipación)
                         val horariosDisponibles = GestorHorarios.obtenerHorariosDisponibles(medico, fechaActualBusqueda)
 
                         if (horariosDisponibles.isNotEmpty()) {
-                            val primerTurno = horariosDisponibles.first()
+                            val primerTurno = horariosDisponibles.first()  // su hueco más temprano
 
+                            // ¿Es el más temprano encontrado hasta ahora? Entonces nos lo guardamos.
                             if (horaMasTempranaDelDia == null || primerTurno.isBefore(horaMasTempranaDelDia)) {
                                 horaMasTempranaDelDia = primerTurno
                                 mejorMedicoDelDia = medico
@@ -79,13 +103,15 @@ class Step2Activity : AppCompatActivity() {
                         }
                     }
 
+                    // Si este día tuvo algún hueco, ya es el más próximo posible -> paramos
                     if (horaMasTempranaDelDia != null && mejorMedicoDelDia != null) {
                         fechaAsignada = fechaActualBusqueda
                         horaAsignada = horaMasTempranaDelDia
                         medicoAsignado = mejorMedicoDelDia
-                        break
+                        break   // <- corta el bucle externo
                     }
 
+                    // Ese día estaba lleno: probamos con el día siguiente
                     fechaActualBusqueda = fechaActualBusqueda.plusDays(1)
                 }
 
